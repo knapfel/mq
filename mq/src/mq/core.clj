@@ -24,18 +24,18 @@
 
 (def slice 100000)
 
-(def primes-1
-  (take slice (drop start-at (gen-primes))))
+(def primes-1 (memoize (fn []
+  (into-array (take slice (drop start-at (gen-primes)))))))
 
-(def primes-2
-  (take slice (drop (+ start-at slice) (gen-primes))))
+(def primes-2 (memoize (fn[]
+  (into-array (take slice (drop (+ start-at slice) (gen-primes)))))))
 
 (defn res [f i]
-  (let [ps (take (* f (m (* (last primes-1) (last primes-2)))) (gen-primes))]
+  (let [ps (take (* f (m (* (last (primes-1)) (last (primes-2))))) (gen-primes))]
     (join ", " (drop 1 (map #(mod i %) ps)))))
 
 (defn line [i]
-  (let [ p (rand-nth primes-1) q (rand-nth primes-2)]
+  (let [ p (rand-nth (primes-1)) q (rand-nth (primes-2))]
     (str (res 1 p) ", " (res 1 q) ", " (res 3 (* p q)))))
 
 (defn products [n] 
