@@ -31,7 +31,7 @@
   (take slice (drop (+ start-at slice) (gen-primes))))
 
 (defn res [f i]
-  (let [ps (take (* f (m (* (last example-primes-1) (last example-primes-2)))) (gen-primes))]
+  (let [ps (take (* f (m (* (last primes-1) (last primes-2)))) (gen-primes))]
     (join ", " (drop 1 (map #(mod i %) ps)))))
 
 (defn line [i]
